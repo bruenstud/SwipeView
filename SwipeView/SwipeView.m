@@ -521,35 +521,32 @@
 
 - (void)setFrameForView:(UIView *)view atIndex:(NSInteger)index
 {
-    if (self.window)
+    CGPoint center = view.center;
+    if (_vertical)
     {
-        CGPoint center = view.center;
-        if (_vertical)
-        {
-            center.y = ([self offsetForItemAtIndex:index] + 0.5f) * _itemSize.height + _scrollView.contentOffset.y;
-        }
-        else
-        {
-            center.x = ([self offsetForItemAtIndex:index] + 0.5f) * _itemSize.width + _scrollView.contentOffset.x;
-        }
-        
-        BOOL disableAnimation = !CGPointEqualToPoint(center, view.center);
-        BOOL animationEnabled = [UIView areAnimationsEnabled];
-        if (disableAnimation && animationEnabled) [UIView setAnimationsEnabled:NO];
-        
-        if (_vertical)
-        {
-            view.center = CGPointMake(_scrollView.frame.size.width/2.0f, center.y);
-        }
-        else
-        {
-            view.center = CGPointMake(center.x, _scrollView.frame.size.height/2.0f);
-        }
-        
-        view.bounds = CGRectMake(0.0f, 0.0f, _itemSize.width, _itemSize.height);
-        
-        if (disableAnimation && animationEnabled) [UIView setAnimationsEnabled:YES];
+        center.y = ([self offsetForItemAtIndex:index] + 0.5f) * _itemSize.height + _scrollView.contentOffset.y;
     }
+    else
+    {
+        center.x = ([self offsetForItemAtIndex:index] + 0.5f) * _itemSize.width + _scrollView.contentOffset.x;
+    }
+    
+    BOOL disableAnimation = !CGPointEqualToPoint(center, view.center);
+    BOOL animationEnabled = [UIView areAnimationsEnabled];
+    if (disableAnimation && animationEnabled) [UIView setAnimationsEnabled:NO];
+    
+    if (_vertical)
+    {
+        view.center = CGPointMake(_scrollView.frame.size.width/2.0f, center.y);
+    }
+    else
+    {
+        view.center = CGPointMake(center.x, _scrollView.frame.size.height/2.0f);
+    }
+    
+    view.bounds = CGRectMake(0.0f, 0.0f, _itemSize.width, _itemSize.height);
+    
+    if (disableAnimation && animationEnabled) [UIView setAnimationsEnabled:YES];
 }
 
 - (void)layOutItemViews
